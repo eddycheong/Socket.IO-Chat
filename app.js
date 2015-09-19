@@ -11,7 +11,7 @@ io.on('connection', function(socket){
 	console.log('a user connected');
 
 	// Broadcast a new user has connected to all connected users
-	io.emit('chat message', 'a user connected')
+	socket.broadcast.emit('chat message', 'a user connected')
 
 	socket.on('chat message', function(msg){
 		console.log('message: ' + msg);
