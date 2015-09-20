@@ -3,23 +3,28 @@ var app = express();
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 
+var users = {};
+
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', function(socket){
-	console.log('a user connected');
 
-	// Broadcast a new user has connected to all connected users
-	socket.broadcast.emit('chat message', 'a user connected')
+	socket.on('join', function(name){
+		console.log(name + ' connected');
+		socket.broadcast.emit('chat message', name + ' connected');
+		users[socket.id] = name;
+	});
 
 	socket.on('chat message', function(msg){
 		console.log('message: ' + msg);
 		io.emit('chat message', msg)
 	});
+	
 	socket.on('disconnect', function(){
-		console.log('user disconnected');
-		io.emit('chat message', 'a user disconnected');
+		console.log(users[socket.id] +' disconnected');
+		io.emit('chat message', users[socket.id] + ' disconnected');
 	});
 });
 

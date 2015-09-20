@@ -18,8 +18,17 @@
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
 	<script>
 		$(document).ready(function() {
+
+      var username = prompt("Enter a nickname: ", "guest");
+
+      if(username == null) {
+        username = "guest"
+      }
+
 			var socket = io();
-			//socket.emit('chat message', 'test');
+
+      socket.emit('join', username)
+
 			$('form').submit(function(e) {
 				e.preventDefault();
 				socket.emit('chat message', $('#m').val());
