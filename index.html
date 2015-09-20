@@ -10,7 +10,6 @@
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
     </style>
   </head>
   <body>
@@ -20,7 +19,6 @@
 		$(document).ready(function() {
 
       var username = prompt("Enter a nickname: ", "guest");
-
       if(username == null) {
         username = "guest"
       }
@@ -32,9 +30,11 @@
 			$('form').submit(function(e) {
 				e.preventDefault();
 				socket.emit('chat message', $('#m').val());
-				$('#m').val('');
+        $('#messages').append($('<li>').css('background', '#eee').text($('#m').val()));
+        $('#m').val('');
 				return false;
 		  	});
+
       socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
       });
