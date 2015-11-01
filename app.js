@@ -17,9 +17,11 @@ io.on('connection', function(socket){
 		users[socket.id] = name;
 	});
 
+	// This rebroadcasts to everyone in the channel
 	socket.on('chat message', function(msg){
-		console.log('message: ' + msg);
-		socket.broadcast.emit('chat message', msg)
+		console.log('message: ' + msg.id);
+		console.log('message: ' + msg.message);
+		socket.broadcast.emit('chat message', msg.id + ': ' + msg.message)
 	});
 
 	socket.on('disconnect', function(){

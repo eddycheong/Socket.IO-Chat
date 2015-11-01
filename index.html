@@ -33,7 +33,7 @@
 
 		// If the message is empty, do not send anything
         if($('#m').val() != '') {
-  		  socket.emit('chat message', $('#m').val());
+  		  socket.emit('chat message', { id:username ,message:$('#m').val()});
 
   		  // Append your own message to your own client without sending to the server
           $('#messages').append($('<li>').css('background', '#eee').text('You: ' + $('#m').val()));
