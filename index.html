@@ -38,6 +38,9 @@
   		  // Append your own message to your own client without sending to the server
           $('#messages').append($('<li>').css('background', '#eee').text('You: ' + $('#m').val()));
           $('#m').val('');
+
+          // When the user enters a new message, scroll the text box to the bottom of the messagebox
+          window.scrollTo(0,document.body.scrollHeight);
         }
 				return false;
 		  	});
