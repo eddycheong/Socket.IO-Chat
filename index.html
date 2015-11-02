@@ -10,7 +10,7 @@
       form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
       form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
       /*#messages { list-style-type: none; margin: 0; padding: 0;}*/
-      #messages { height: 94%; width: 100%; background-color: red; overflow: auto;}
+      #messages { height: 94%; width: 100%; overflow: auto;}
       #messages li { padding: 5px 10px;}
     </style>
   </head>
@@ -37,13 +37,28 @@
         if($('#m').val() != '') {
   		  socket.emit('chat message', { id:username ,message:$('#m').val()});
 
-  		  // Append your own message to your own client without sending to the server
-          $('#messages').append($('<li>').css('background', '#eee').text('You: ' + $('#m').val()));
-          $('#m').val('');
+			  // Append your own message to your own client without sending to the server
+			$('#messages').append($('<li>').css('background', '#eee').text('You: ' + $('#m').val()));
+			$('#m').val('');
 
-          // When the user enters a new message, scroll the text box to the bottom of the messagebox
-          //window.scrollTo(0,document.body.scrollHeight);
-          window.scrollTo(0,document.getElementById("messages").scrollHeight);	// This is buggy
+	        // When the user enters a new message, scroll the text box to the bottom of the messagebox
+	        //window.scrollTo(0,document.body.scrollHeight);
+        	//window.scrollTo(0,document.getElementById("messages").scrollHeight);	// This is buggy
+        	
+        	// Both of these hacks work, but they are a bit strange
+        	//$('#messages').animate({
+			//    scrollTop: $('#messages').get(0).scrollHeight
+			//}, 1500);
+			//$("#messages").animate({ scrollTop: $("#messages")[0].scrollHeight}, 1000);
+
+
+			// This seems to work the best, but I fear this might not work for all browsers
+			// There is no delay in scrolling down
+			// This link provided the solution: http://stackoverflow.com/a/7303972
+			var objDiv = document.getElementById("messages");
+			objDiv.scrollTop = objDiv.scrollHeight;
+
+
         }
 				return false;
 		  	});
